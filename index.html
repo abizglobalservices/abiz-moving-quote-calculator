@@ -6,107 +6,164 @@
 <title>Moving Quote Calculator — Interactive Demo | Abiz Global Services</title>
 <meta name="description" content="Interactive client demonstration: moving quote calculator with room toggles, cubic-foot volume, mileage and labour multiplier.">
 <style>
-*{box-sizing:border-box} body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#eef2f7;color:#1a2433;line-height:1.5}
-.banner{background:#0b2a5b;color:#fff;text-align:center;padding:12px 16px;font-weight:bold;font-size:15px}
-header{max-width:920px;margin:0 auto;padding:28px 20px 8px;text-align:center}
-header h1{margin:0 0 8px;color:#0b2a5b;font-size:28px} header p{margin:0;color:#44546e}
-main{max-width:920px;margin:0 auto;padding:20px}
-.card{background:#fff;border-radius:12px;padding:24px;margin:0 0 20px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
-h2{margin-top:0;color:#0b2a5b}
-label{display:block;font-weight:bold;margin:14px 0 4px}
-input,select{width:100%;padding:11px;border:1px solid #c3cede;border-radius:8px;font-size:15px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:600px){.grid{grid-template-columns:1fr} header h1{font-size:24px} .card{padding:18px}}
+:root{--navy:#0b2a5b;--green:#0b7a43;--green-tint:#eaf7ee;--gold:#c9a227;--ink:#1a2433;--muted:#44546e;--border:#d5dce6;--bg:#f2f4f7;--card:#ffffff}
+*{box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.55;font-size:16px}
+button,input,select{font:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.banner{background:var(--navy);color:#fff;text-align:center;padding:13px 16px;font-weight:bold;font-size:15px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 32px}
+.hero{text-align:center;padding:30px 0 10px}
+.hero h1{margin:0 0 8px;color:var(--navy);font-size:32px;line-height:1.2}
+.hero p{margin:0;color:var(--muted);font-size:17px}
+.hero .seller{font-size:14px;margin-top:10px}
+.packages{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}
+.pkg{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--gold);border-radius:12px;padding:16px}
+.pkg b{color:var(--navy);font-size:17px}
+.pkg p{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.6}
+.layout{display:grid;grid-template-columns:1fr;gap:20px;align-items:start}
+@media(min-width:900px){.layout{grid-template-columns:minmax(0,1.65fr) minmax(300px,1fr)} .result-panel{position:sticky;top:16px}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;box-shadow:0 1px 4px rgba(11,42,91,.08)}
+.step{margin-bottom:20px}
+.eyebrow{color:var(--green);font-weight:bold;font-size:14px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 4px}
+h2{margin:0 0 6px;color:var(--navy);font-size:21px}
+.note{font-size:14px;color:var(--muted)}
+label{display:block;font-weight:bold;margin:14px 0 4px;font-size:15px}
+input,select{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:8px;font-size:15px;background:#fff;color:var(--ink)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.grid2{grid-template-columns:1fr}.packages{grid-template-columns:1fr}.hero h1{font-size:26px}.card{padding:18px}.wrap{padding:0 14px 24px}}
 .seg{display:flex;gap:8px;flex-wrap:wrap}
-.seg button{background:#eef2f7;color:#1a2433;border:1px solid #c3cede;padding:10px 14px;border-radius:20px;cursor:pointer;font-weight:bold}
-.seg button.active{background:#0b2a5b;color:#fff;border-color:#0b2a5b}
-.room{display:flex;justify-content:space-between;align-items:center;border:1px solid #d5dce6;border-radius:10px;padding:10px 12px;margin:8px 0}
-.room.off{opacity:.55} .room b{display:block} .room span{font-size:13px;color:#5a6a82}
-.qty{display:flex;align-items:center;gap:8px} .qty button{width:34px;height:34px;border-radius:50%;border:1px solid #c3cede;background:#fff;font-size:18px;cursor:pointer}
+.seg button{background:#eef2f7;color:var(--ink);border:1px solid var(--border);padding:10px 16px;border-radius:20px;cursor:pointer;font-weight:bold}
+.seg button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+@media(max-width:600px){.room-grid{grid-template-columns:1fr}}
+.room{border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff}
+.room.selected{border:2px solid var(--green);background:var(--green-tint)}
+.room-toggle{width:100%;background:transparent;border:0;cursor:pointer;text-align:left;padding:0;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;color:var(--ink)}
+.room-name{display:block;font-weight:bold;font-size:16px}
+.room-cuft{display:block;font-size:14px;color:var(--muted);margin-top:2px}
+.room-tick{display:none;width:26px;height:26px;border-radius:50%;background:var(--green);color:#fff;text-align:center;line-height:26px;font-weight:bold;flex-shrink:0}
+.room.selected .room-tick{display:block}
+.qty{display:flex;align-items:center;gap:10px;margin-top:10px}
+.qty button{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:#fff;font-size:19px;cursor:pointer;line-height:1}
 .qty button:disabled{opacity:.35;cursor:default}
-.check{font-weight:normal} .check input{width:auto}
-button.primary{background:#0b7a43;color:#fff;border:0;padding:13px 22px;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:18px;width:100%}
-.result{margin-top:18px;background:#eaf7ee;border:1px solid #9ed4ae;border-radius:8px;padding:18px}
-.result b.big{font-size:28px;color:#0b7a43}
-.breakdown{font-size:14px;color:#44546e;margin-top:8px;line-height:1.7}
-.note{font-size:13px;color:#5a6a82} .truck{font-weight:bold;color:#0b2a5b}
-footer{max-width:920px;margin:0 auto;padding:0 20px 30px;text-align:center}
+.qty-value{min-width:22px;text-align:center;font-weight:bold}
+.check{font-weight:normal;display:flex;gap:10px;align-items:flex-start}
+.check input{width:20px;height:20px;flex-shrink:0;margin-top:2px}
+button.primary{background:var(--green);color:#fff;border:0;padding:14px 22px;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:18px;width:100%}
+.result{margin-top:14px;background:var(--green-tint);border:1px solid #9ed4ae;border-radius:10px;padding:18px}
+.result b.big{font-size:30px;color:var(--green)}
+.breakdown{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.7}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
+th,td{border:1px solid var(--border);padding:8px;text-align:left}
+th{background:var(--navy);color:#fff}
+button.secondary{background:#eef2f7;border:1px solid var(--border);padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:bold}
+footer{text-align:center;padding:4px 0 10px}
+.truck{font-weight:bold;color:var(--navy)}
 </style>
 </head>
 <body>
 <div class="banner">Interactive Client Demonstration — Abiz Global Services — Fiverr Escrow Protected.</div>
-<header>
-  <h1>Moving Quote Calculator</h1>
-  <p>Pick your rooms, enter the distance, choose your crew — get an instant estimate. No phone call needed just to get a price.</p>
-  <p class="note">Demo for the live Fiverr gig by sardar__tech (Wafa Abbas) — Programming &amp; Tech / Website Development / WordPress. No rating or level badge shown yet; it is a new launch gig.</p>
-  <div class="grid" style="text-align:left;margin-top:14px">
-    <div class="card" style="margin:0;padding:14px"><b>Basic — $80</b><br><span class="note">1-service calculator · 3 days · 1 revision · 1 page · lead form to email · mobile test</span></div>
-    <div class="card" style="margin:0;padding:14px"><b>Standard — $120</b><br><span class="note">Multi-service calculator · 5 days · 2 revisions · 2 pages · packing/storage options · lead to email or CRM</span></div>
-    <div class="card" style="margin:0;padding:14px"><b>Premium — $220</b><br><span class="note">Full quote system · 7 days · 2 revisions · 3 pages · admin dashboard · custom pricing rules · Loom walkthrough</span></div>
-  </div>
-</header>
-<main>
-  <section class="card">
-    <h2>1. Move type</h2>
-    <div class="seg" id="serviceSeg">
-      <button data-service="local" class="active">Local move</button>
-      <button data-service="long">Long-distance move</button>
-      <button data-service="office">Office move</button>
-    </div>
-    <p class="note" id="pricingNote">Example demo pricing — Local: base $150 + $40 per room + $2 per km. A real build uses the client's own rules.</p>
+<div class="wrap">
+  <header class="hero">
+    <h1>Moving Quote Calculator</h1>
+    <p>Pick your rooms, enter the distance, choose your crew — get an instant estimate.</p>
+    <p class="seller">Demo for the live Fiverr gig by sardar__tech (Wafa Abbas) — Programming &amp; Tech / Website Development / WordPress. No rating or level badge shown yet; it is a new launch gig.</p>
+  </header>
 
-    <h2>2. Rooms — tap to toggle, adjust quantity</h2>
-    <p class="note">Each room adds its estimated cubic-foot volume. Total volume suggests truck size and crew.</p>
-    <div id="rooms"></div>
-    <p><span id="roomSummary"></span> · <span id="volumeSummary"></span> · <span class="truck" id="truckSummary"></span></p>
-
-    <h2>3. Distance &amp; crew</h2>
-    <div class="grid">
-      <div><label>Distance (km) <input id="km" type="number" min="0" value="25"></label>
-      <p class="note" id="mileNote">≈ 15.5 miles</p></div>
-      <div><label>Crew size / labour multiplier
-        <select id="crew">
-          <option value="1">2 movers — ×1.00</option>
-          <option value="1.25">3 movers — ×1.25</option>
-          <option value="1.5">4 movers — ×1.50</option>
-        </select></label>
-      <p class="note">Larger crews finish faster; the multiplier applies to the room + distance subtotal, not to packing/storage.</p></div>
-    </div>
-    <label class="check"><input id="packing" type="checkbox"> Add packing service (+$99 flat)</label>
-    <label class="check"><input id="storage" type="checkbox"> Add storage (+$50 / month)</label>
-
-    <h2>4. Your details (demo lead form)</h2>
-    <div class="grid">
-      <div><label>Name <input id="name" type="text" placeholder="e.g. Ahmed Khan"></label></div>
-      <div><label>Email <input id="email" type="email" placeholder="you@example.com"></label></div>
-    </div>
-    <label>Move date <input id="date" type="date"></label>
-
-    <button class="primary" onclick="calculate()">Get Instant Estimate</button>
-    <div class="result" id="result" style="display:none"></div>
-    <p class="note">Demo only: no data leaves this browser. In a client build, leads go to the mover's email or CRM.</p>
+  <section class="packages" aria-label="Fiverr packages">
+    <div class="pkg"><b>Basic — $80</b><p>1-service calculator · 3 days · 1 revision · 1 page · lead form to email · mobile test</p></div>
+    <div class="pkg"><b>Standard — $120</b><p>Multi-service calculator · 5 days · 2 revisions · 2 pages · packing/storage options · lead to email or CRM</p></div>
+    <div class="pkg"><b>Premium — $220</b><p>Full quote system · 7 days · 2 revisions · 3 pages · admin dashboard · custom pricing rules · Loom walkthrough</p></div>
   </section>
 
-  <section class="card">
-    <h2>Premium preview — Admin dashboard</h2>
+  <div class="layout">
+    <div class="steps">
+      <section class="card step">
+        <p class="eyebrow">Step 1</p>
+        <h2>Move type</h2>
+        <div class="seg" id="serviceSeg">
+          <button type="button" data-service="local" class="active" aria-pressed="true">Local move</button>
+          <button type="button" data-service="long" aria-pressed="false">Long-distance move</button>
+          <button type="button" data-service="office" aria-pressed="false">Office move</button>
+        </div>
+        <p class="note" id="pricingNote">Example demo pricing — Local: base $150 + $40 per room + $2 per km. A real build uses the client's own rules.</p>
+      </section>
+
+      <section class="card step">
+        <p class="eyebrow">Step 2</p>
+        <h2>Rooms — tap a card to select it, adjust quantity</h2>
+        <p class="note">Each room adds its estimated cubic-foot volume. Total volume suggests truck size and crew.</p>
+        <div id="rooms" class="room-grid"></div>
+        <p><span id="roomSummary"></span> · <span id="volumeSummary"></span> · <span class="truck" id="truckSummary"></span></p>
+      </section>
+
+      <section class="card step">
+        <p class="eyebrow">Step 3</p>
+        <h2>Distance &amp; crew</h2>
+        <div class="grid2">
+          <div>
+            <label for="km">Distance (km)</label>
+            <input id="km" type="number" min="0" value="25">
+            <p class="note" id="mileNote">≈ 15.5 miles</p>
+          </div>
+          <div>
+            <label for="crew">Crew size / labour multiplier</label>
+            <select id="crew">
+              <option value="1">2 movers — ×1.00</option>
+              <option value="1.25">3 movers — ×1.25</option>
+              <option value="1.5">4 movers — ×1.50</option>
+            </select>
+            <p class="note">Larger crews finish faster; the multiplier applies to the room + distance subtotal, not to packing/storage.</p>
+          </div>
+        </div>
+        <label class="check"><input id="packing" type="checkbox"> Add packing service (+$99 flat)</label>
+        <label class="check"><input id="storage" type="checkbox"> Add storage (+$50 / month)</label>
+      </section>
+
+      <section class="card step">
+        <p class="eyebrow">Step 4</p>
+        <h2>Your details (demo lead form)</h2>
+        <div class="grid2">
+          <div><label for="name">Name</label><input id="name" type="text" placeholder="e.g. Ahmed Khan"></div>
+          <div><label for="email">Email</label><input id="email" type="email" placeholder="you@example.com"></div>
+        </div>
+        <label for="date">Move date</label><input id="date" type="date">
+        <button type="button" class="primary" onclick="calculate()">Get Instant Estimate</button>
+        <p class="note">Demo only: no data leaves this browser. In a client build, leads go to the mover's email or CRM.</p>
+      </section>
+    </div>
+
+    <aside class="card result-panel" aria-label="Estimate result">
+      <p class="eyebrow">Your estimate</p>
+      <h2>Instant estimate</h2>
+      <p class="note" id="resultPlaceholder">Your estimate will appear here after you press Get Instant Estimate.</p>
+      <div class="result" id="result" style="display:none"></div>
+    </aside>
+  </div>
+
+  <section class="card" style="margin-top:20px">
+    <p class="eyebrow">Premium preview</p>
+    <h2>Admin dashboard</h2>
     <p class="note">This is the Premium-tier preview from the live gig: an admin view of leads and pricing rules. In a real client build the rules are the client's own — the numbers below are example demo rules only, because the live gig page does not publish per-room or per-km rates.</p>
     <h3>Example pricing rules (demo only)</h3>
-    <table style="width:100%;border-collapse:collapse;font-size:14px">
-      <tr><th style="border:1px solid #d5dce6;padding:8px;text-align:left;background:#0b2a5b;color:#fff">Service</th><th style="border:1px solid #d5dce6;padding:8px;text-align:left;background:#0b2a5b;color:#fff">Base</th><th style="border:1px solid #d5dce6;padding:8px;text-align:left;background:#0b2a5b;color:#fff">Per room</th><th style="border:1px solid #d5dce6;padding:8px;text-align:left;background:#0b2a5b;color:#fff">Per km</th></tr>
-      <tr><td style="border:1px solid #d5dce6;padding:8px">Local move</td><td style="border:1px solid #d5dce6;padding:8px">$150</td><td style="border:1px solid #d5dce6;padding:8px">$40</td><td style="border:1px solid #d5dce6;padding:8px">$2</td></tr>
-      <tr><td style="border:1px solid #d5dce6;padding:8px">Long-distance move</td><td style="border:1px solid #d5dce6;padding:8px">$300</td><td style="border:1px solid #d5dce6;padding:8px">$60</td><td style="border:1px solid #d5dce6;padding:8px">$3</td></tr>
-      <tr><td style="border:1px solid #d5dce6;padding:8px">Office move</td><td style="border:1px solid #d5dce6;padding:8px">$400</td><td style="border:1px solid #d5dce6;padding:8px">$80</td><td style="border:1px solid #d5dce6;padding:8px">$3</td></tr>
+    <table>
+      <tr><th>Service</th><th>Base</th><th>Per room</th><th>Per km</th></tr>
+      <tr><td>Local move</td><td>$150</td><td>$40</td><td>$2</td></tr>
+      <tr><td>Long-distance move</td><td>$300</td><td>$60</td><td>$3</td></tr>
+      <tr><td>Office move</td><td>$400</td><td>$80</td><td>$3</td></tr>
     </table>
     <p class="note">Extras in this demo: Packing +$99 flat · Storage +$50 / month.</p>
     <h3>Leads captured in this demo</h3>
-    <table id="leadsTable" style="width:100%;border-collapse:collapse;font-size:14px">
-      <tr><th style="border:1px solid #d5dce6;padding:8px;text-align:left;background:#0b2a5b;color:#fff">Name</th><th style="border:1px solid #d5dce6;padding:8px;text-align:left;background:#0b2a5b;color:#fff">Email</th><th style="border:1px solid #d5dce6;padding:8px;text-align:left;background:#0b2a5b;color:#fff">Service</th><th style="border:1px solid #d5dce6;padding:8px;text-align:left;background:#0b2a5b;color:#fff">Estimate</th></tr>
+    <table id="leadsTable">
+      <tr><th>Name</th><th>Email</th><th>Service</th><th>Estimate</th></tr>
     </table>
     <p class="note" id="leadsEmpty">No leads yet — submit an estimate above and it will appear here.</p>
-    <button onclick="clearLeads()" style="background:#eef2f7;border:1px solid #c3cede;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:bold">Clear demo leads</button>
+    <button type="button" class="secondary" onclick="clearLeads()">Clear demo leads</button>
   </section>
-</main>
-<footer><p class="note">Built by Abiz Global Services for the live moving-calculator gig. Demo pricing above is an example only — a real client build uses that client's own pricing rules, as the live gig states.</p></footer>
+
+  <footer><p class="note">Built by Abiz Global Services for the live moving-calculator gig. Demo pricing above is an example only — a real client build uses that client's own pricing rules, as the live gig states.</p></footer>
+</div>
 <script>
 var RULES={local:{label:"Local move",base:150,room:40,km:2},long:{label:"Long-distance move",base:300,room:60,km:3},office:{label:"Office move",base:400,room:80,km:3}};
 var ROOMS=[
@@ -135,15 +192,18 @@ function truckFor(cuft){
 function renderRooms(){
  var el=document.getElementById("rooms"); el.innerHTML="";
  ROOMS.forEach(function(r,i){
-   var div=document.createElement("div"); div.className="room"+(r.qty===0?" off":"");
-   div.innerHTML="<div><b>"+r.name+"</b><span>"+r.cuft+" cu ft each</span></div>";
+   var card=document.createElement("article"); card.className="room"+(r.qty>0?" selected":"");
+   var toggle=document.createElement("button"); toggle.type="button"; toggle.className="room-toggle"; toggle.setAttribute("aria-pressed",r.qty>0?"true":"false"); toggle.setAttribute("aria-label","Toggle "+r.name);
+   toggle.innerHTML="<span><span class='room-name'>"+r.name+"</span><span class='room-cuft'>"+r.cuft+" cu ft each</span></span><span class='room-tick' aria-hidden='true'>✓</span>";
+   toggle.onclick=function(){ r.qty = r.qty>0 ? 0 : 1; renderRooms(); };
    var q=document.createElement("div"); q.className="qty";
-   var minus=document.createElement("button"); minus.textContent="−"; minus.disabled=r.qty===0;
+   var minus=document.createElement("button"); minus.type="button"; minus.textContent="−"; minus.disabled=r.qty===0; minus.setAttribute("aria-label","Decrease "+r.name+" quantity");
    minus.onclick=function(){if(r.qty>0){r.qty--;renderRooms();}};
-   var val=document.createElement("span"); val.textContent=r.qty;
-   var plus=document.createElement("button"); plus.textContent="+"; plus.disabled=r.qty>=5;
+   var val=document.createElement("span"); val.className="qty-value"; val.textContent=r.qty;
+   var plus=document.createElement("button"); plus.type="button"; plus.textContent="+"; plus.disabled=r.qty>=5; plus.setAttribute("aria-label","Increase "+r.name+" quantity");
    plus.onclick=function(){if(r.qty<5){r.qty++;renderRooms();}};
-   q.appendChild(minus); q.appendChild(val); q.appendChild(plus); div.appendChild(q); el.appendChild(div);
+   q.appendChild(minus); q.appendChild(val); q.appendChild(plus);
+   card.appendChild(toggle); card.appendChild(q); el.appendChild(card);
  });
  var t=totals();
  document.getElementById("roomSummary").textContent=t.rooms+" room(s) selected";
@@ -151,9 +211,9 @@ function renderRooms(){
  document.getElementById("truckSummary").textContent=truckFor(t.cuft);
 }
 document.getElementById("serviceSeg").addEventListener("click",function(e){
- if(e.target.tagName!=="BUTTON") return;
- service=e.target.getAttribute("data-service");
- document.querySelectorAll("#serviceSeg button").forEach(function(b){b.classList.toggle("active",b===e.target)});
+ var btn=e.target.closest("button"); if(!btn) return;
+ service=btn.getAttribute("data-service");
+ document.querySelectorAll("#serviceSeg button").forEach(function(b){var on=b===btn; b.classList.toggle("active",on); b.setAttribute("aria-pressed",on?"true":"false");});
  var r=RULES[service];
  document.getElementById("pricingNote").textContent="Example demo pricing — "+r.label+": base "+money(r.base)+" + "+money(r.room)+" per room + "+money(r.km)+" per km. A real build uses the client's own rules.";
 });
@@ -170,8 +230,8 @@ function saveLead(name,email,serviceLabel,total){
 function renderLeads(){
  var leads=JSON.parse(localStorage.getItem("movingLeadsDay2")||"[]");
  var tbl=document.getElementById("leadsTable"); if(!tbl) return;
- tbl.innerHTML="<tr><th style='border:1px solid #d5dce6;padding:8px;text-align:left;background:#0b2a5b;color:#fff'>Name</th><th style='border:1px solid #d5dce6;padding:8px;text-align:left;background:#0b2a5b;color:#fff'>Email</th><th style='border:1px solid #d5dce6;padding:8px;text-align:left;background:#0b2a5b;color:#fff'>Service</th><th style='border:1px solid #d5dce6;padding:8px;text-align:left;background:#0b2a5b;color:#fff'>Estimate</th></tr>";
- leads.forEach(function(l){ tbl.innerHTML+="<tr><td style='border:1px solid #d5dce6;padding:8px'>"+l.name+"</td><td style='border:1px solid #d5dce6;padding:8px'>"+l.email+"</td><td style='border:1px solid #d5dce6;padding:8px'>"+l.service+"</td><td style='border:1px solid #d5dce6;padding:8px'>"+money(l.total)+"</td></tr>"; });
+ tbl.innerHTML="<tr><th>Name</th><th>Email</th><th>Service</th><th>Estimate</th></tr>";
+ leads.forEach(function(l){ tbl.innerHTML+="<tr><td>"+l.name+"</td><td>"+l.email+"</td><td>"+l.service+"</td><td>"+money(l.total)+"</td></tr>"; });
  document.getElementById("leadsEmpty").style.display=leads.length?"none":"block";
 }
 function clearLeads(){ localStorage.removeItem("movingLeadsDay2"); renderLeads(); }
@@ -186,6 +246,7 @@ function calculate(){
  var storage=document.getElementById("storage").checked?50:0;
  var total=labourAdjusted+packing+storage;
  var el=document.getElementById("result"); el.style.display="block";
+ var ph=document.getElementById("resultPlaceholder"); if(ph) ph.style.display="none";
  el.innerHTML="Your instant estimate: <b class='big'>"+money(total)+"</b>"+
  "<div class='breakdown'>"+r.label+"<br>Base: "+money(r.base)+"<br>Rooms: "+t.rooms+" × "+money(r.room)+" = "+money(roomCharge)+
  "<br>Distance: "+km+" km × "+money(r.km)+" = "+money(distCharge)+
