@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Moving Quote Calculator — Interactive Demo | Abiz Global Services</title>
+<title>Moving Quote Calculator - Interactive Demo | Abiz Global Services</title>
 <meta name="description" content="Interactive client demonstration: moving quote calculator with room toggles, cubic-foot volume, mileage and labour multiplier.">
 <style>
 :root{--navy:#0b2a5b;--green:#0b7a43;--green-tint:#eaf7ee;--gold:#c9a227;--ink:#1a2433;--muted:#44546e;--border:#d5dce6;--bg:#f2f4f7;--card:#ffffff}
@@ -11,7 +11,6 @@
 body{font-family:Arial,Helvetica,sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.55;font-size:16px}
 button,input,select{font:inherit}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.banner{background:var(--navy);color:#fff;text-align:center;padding:13px 16px;font-weight:bold;font-size:15px}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px 32px}
 .hero{text-align:center;padding:30px 0 10px}
 .hero h1{margin:0 0 8px;color:var(--navy);font-size:32px;line-height:1.2}
@@ -59,22 +58,39 @@ th,td{border:1px solid var(--border);padding:8px;text-align:left}
 th{background:var(--navy);color:#fff}
 button.secondary{background:#eef2f7;border:1px solid var(--border);padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:bold}
 footer{text-align:center;padding:4px 0 10px}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.table-wrap table{min-width:520px}
+input,select{font-size:16px}
+@media(max-width:480px){
+ .hero{padding:20px 0 6px}
+ .hero h1{font-size:24px}
+ .hero p{font-size:15px}
+ .packages{gap:10px}
+ .pkg{padding:14px}
+ .card{padding:16px}
+ .room-grid{gap:10px}
+ .qty button{width:42px;height:42px}
+ .seg button{padding:11px 14px}
+ table{font-size:14px}
+}
+@media(min-width:601px) and (max-width:900px){
+ .packages{grid-template-columns:repeat(2,1fr)}
+}
 .truck{font-weight:bold;color:var(--navy)}
 </style>
 </head>
 <body>
-<div class="banner">Interactive Client Demonstration — Abiz Global Services — Fiverr Escrow Protected.</div>
 <div class="wrap">
   <header class="hero">
     <h1>Moving Quote Calculator</h1>
-    <p>Pick your rooms, enter the distance, choose your crew — get an instant estimate.</p>
-    <p class="seller">Demo for the live Fiverr gig by sardar__tech (Wafa Abbas) — Programming &amp; Tech / Website Development / WordPress. No rating or level badge shown yet; it is a new launch gig.</p>
+    <p>Pick your rooms, enter the distance, choose your crew - get an instant estimate.</p>
+    <p class="seller">Demo for the live Fiverr gig by sardar__tech (Wafa Abbas) - Programming &amp; Tech / Website Development / WordPress. No rating or level badge shown yet; it is a new launch gig.</p>
   </header>
 
   <section class="packages" aria-label="Fiverr packages">
-    <div class="pkg"><b>Basic — $80</b><p>1-service calculator · 3 days · 1 revision · 1 page · lead form to email · mobile test</p></div>
-    <div class="pkg"><b>Standard — $120</b><p>Multi-service calculator · 5 days · 2 revisions · 2 pages · packing/storage options · lead to email or CRM</p></div>
-    <div class="pkg"><b>Premium — $220</b><p>Full quote system · 7 days · 2 revisions · 3 pages · admin dashboard · custom pricing rules · Loom walkthrough</p></div>
+    <div class="pkg"><b>Basic - $80</b><p>1-service calculator · 3 days · 1 revision · 1 page · lead form to email · mobile test</p></div>
+    <div class="pkg"><b>Standard - $120</b><p>Multi-service calculator · 5 days · 2 revisions · 2 pages · packing/storage options · lead to email or CRM</p></div>
+    <div class="pkg"><b>Premium - $220</b><p>Full quote system · 7 days · 2 revisions · 3 pages · admin dashboard · custom pricing rules · Loom walkthrough</p></div>
   </section>
 
   <div class="layout">
@@ -87,12 +103,12 @@ footer{text-align:center;padding:4px 0 10px}
           <button type="button" data-service="long" aria-pressed="false">Long-distance move</button>
           <button type="button" data-service="office" aria-pressed="false">Office move</button>
         </div>
-        <p class="note" id="pricingNote">Example demo pricing — Local: base $150 + $40 per room + $2 per km. A real build uses the client's own rules.</p>
+        <p class="note" id="pricingNote">Example demo pricing - Local: base $150 + $40 per room + $2 per km. A real build uses the client's own rules.</p>
       </section>
 
       <section class="card step">
         <p class="eyebrow">Step 2</p>
-        <h2>Rooms — tap a card to select it, adjust quantity</h2>
+        <h2>Rooms - tap a card to select it, adjust quantity</h2>
         <p class="note">Each room adds its estimated cubic-foot volume. Total volume suggests truck size and crew.</p>
         <div id="rooms" class="room-grid"></div>
         <p><span id="roomSummary"></span> · <span id="volumeSummary"></span> · <span class="truck" id="truckSummary"></span></p>
@@ -110,9 +126,9 @@ footer{text-align:center;padding:4px 0 10px}
           <div>
             <label for="crew">Crew size / labour multiplier</label>
             <select id="crew">
-              <option value="1">2 movers — ×1.00</option>
-              <option value="1.25">3 movers — ×1.25</option>
-              <option value="1.5">4 movers — ×1.50</option>
+              <option value="1">2 movers - ×1.00</option>
+              <option value="1.25">3 movers - ×1.25</option>
+              <option value="1.5">4 movers - ×1.50</option>
             </select>
             <p class="note">Larger crews finish faster; the multiplier applies to the room + distance subtotal, not to packing/storage.</p>
           </div>
@@ -145,24 +161,24 @@ footer{text-align:center;padding:4px 0 10px}
   <section class="card" style="margin-top:20px">
     <p class="eyebrow">Premium preview</p>
     <h2>Admin dashboard</h2>
-    <p class="note">This is the Premium-tier preview from the live gig: an admin view of leads and pricing rules. In a real client build the rules are the client's own — the numbers below are example demo rules only, because the live gig page does not publish per-room or per-km rates.</p>
+    <p class="note">This is the Premium-tier preview from the live gig: an admin view of leads and pricing rules. In a real client build the rules are the client's own - the numbers below are example demo rules only, because the live gig page does not publish per-room or per-km rates.</p>
     <h3>Example pricing rules (demo only)</h3>
-    <table>
+    <div class="table-wrap"><table>
       <tr><th>Service</th><th>Base</th><th>Per room</th><th>Per km</th></tr>
       <tr><td>Local move</td><td>$150</td><td>$40</td><td>$2</td></tr>
       <tr><td>Long-distance move</td><td>$300</td><td>$60</td><td>$3</td></tr>
       <tr><td>Office move</td><td>$400</td><td>$80</td><td>$3</td></tr>
-    </table>
+    </table></div>
     <p class="note">Extras in this demo: Packing +$99 flat · Storage +$50 / month.</p>
     <h3>Leads captured in this demo</h3>
     <table id="leadsTable">
       <tr><th>Name</th><th>Email</th><th>Service</th><th>Estimate</th></tr>
-    </table>
-    <p class="note" id="leadsEmpty">No leads yet — submit an estimate above and it will appear here.</p>
+    </table></div>
+    <p class="note" id="leadsEmpty">No leads yet - submit an estimate above and it will appear here.</p>
     <button type="button" class="secondary" onclick="clearLeads()">Clear demo leads</button>
   </section>
 
-  <footer><p class="note">Built by Abiz Global Services for the live moving-calculator gig. Demo pricing above is an example only — a real client build uses that client's own pricing rules, as the live gig states.</p></footer>
+  <footer><p class="note">Built by Abiz Global Services for the live moving-calculator gig. Demo pricing above is an example only - a real client build uses that client's own pricing rules, as the live gig states.</p></footer>
 </div>
 <script>
 var RULES={local:{label:"Local move",base:150,room:40,km:2},long:{label:"Long-distance move",base:300,room:60,km:3},office:{label:"Office move",base:400,room:80,km:3}};
@@ -197,7 +213,7 @@ function renderRooms(){
    toggle.innerHTML="<span><span class='room-name'>"+r.name+"</span><span class='room-cuft'>"+r.cuft+" cu ft each</span></span><span class='room-tick' aria-hidden='true'>✓</span>";
    toggle.onclick=function(){ r.qty = r.qty>0 ? 0 : 1; renderRooms(); };
    var q=document.createElement("div"); q.className="qty";
-   var minus=document.createElement("button"); minus.type="button"; minus.textContent="−"; minus.disabled=r.qty===0; minus.setAttribute("aria-label","Decrease "+r.name+" quantity");
+   var minus=document.createElement("button"); minus.type="button"; minus.textContent="-"; minus.disabled=r.qty===0; minus.setAttribute("aria-label","Decrease "+r.name+" quantity");
    minus.onclick=function(){if(r.qty>0){r.qty--;renderRooms();}};
    var val=document.createElement("span"); val.className="qty-value"; val.textContent=r.qty;
    var plus=document.createElement("button"); plus.type="button"; plus.textContent="+"; plus.disabled=r.qty>=5; plus.setAttribute("aria-label","Increase "+r.name+" quantity");
@@ -215,7 +231,7 @@ document.getElementById("serviceSeg").addEventListener("click",function(e){
  service=btn.getAttribute("data-service");
  document.querySelectorAll("#serviceSeg button").forEach(function(b){var on=b===btn; b.classList.toggle("active",on); b.setAttribute("aria-pressed",on?"true":"false");});
  var r=RULES[service];
- document.getElementById("pricingNote").textContent="Example demo pricing — "+r.label+": base "+money(r.base)+" + "+money(r.room)+" per room + "+money(r.km)+" per km. A real build uses the client's own rules.";
+ document.getElementById("pricingNote").textContent="Example demo pricing - "+r.label+": base "+money(r.base)+" + "+money(r.room)+" per room + "+money(r.km)+" per km. A real build uses the client's own rules.";
 });
 document.getElementById("km").addEventListener("input",function(e){
  var km=parseFloat(e.target.value)||0;
@@ -252,8 +268,8 @@ function calculate(){
  "<br>Distance: "+km+" km × "+money(r.km)+" = "+money(distCharge)+
  "<br>Subtotal: "+money(subtotal)+"<br>Labour multiplier: ×"+mult.toFixed(2)+" = "+money(labourAdjusted)+
  (packing?"<br>Packing: +$99":"")+(storage?"<br>Storage: +$50 / month":"")+
- "<br>Volume: "+t.cuft+" cu ft — "+truckFor(t.cuft)+
- "<br><span style='color:#0b7a43;font-weight:bold'>✓ Lead captured (demo)</span> — in a live build this goes to the mover's email/CRM.</div>";
+ "<br>Volume: "+t.cuft+" cu ft - "+truckFor(t.cuft)+
+ "<br><span style='color:#0b7a43;font-weight:bold'>✓ Lead captured (demo)</span> - in a live build this goes to the mover's email/CRM.</div>";
  saveLead(document.getElementById("name").value,document.getElementById("email").value,r.label,total);
 }
 renderRooms(); renderLeads();
